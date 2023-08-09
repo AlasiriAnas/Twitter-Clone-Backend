@@ -46,7 +46,7 @@ router.get('/:id' , async (req, res) => {
     const {id} = req.params;
     try {
     const user = await prisma.user
-    .findMany({where: {
+    .findUnique({where: {
         id:Number(id)
     }})
     res.json(user);
@@ -83,14 +83,12 @@ router.delete('/:id' , async (req, res) => {
             where:{id:Number(id)}
         })
         res.json(deleteUser);
-        
+
     } catch (error) {
         console.log(error)
         res.status(400).json({error: "failed to delete the user!"});
     }
 });
-
-
 
 
 
