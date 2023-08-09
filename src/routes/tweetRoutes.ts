@@ -25,11 +25,22 @@ router.post("/", async (req, res) => {
   }
 });
 
-// get all the tweet
+// get all tweets
 router.get("/", async (req, res) => {
   // TODO manage auth user to see its tweets only
   try {
-    const Tweets = await prisma.tweet.findMany();
+    const Tweets = await prisma.tweet.findMany({
+        include:{
+            user:{
+                select:{
+                name:true,
+                id:true,
+                username:true,
+                image:true,
+                bio:true
+            }}
+        }
+    });
     res.status(200).json(Tweets);
   } catch (error) {
     console.log(error);
@@ -47,6 +58,9 @@ router.get("/:id", async (req, res) => {
       where: {
         id: Number(id),
       },
+      include:{
+        user:true
+      }
     });
     res.status(200).json(retrievedTweet);
   } catch (error) {

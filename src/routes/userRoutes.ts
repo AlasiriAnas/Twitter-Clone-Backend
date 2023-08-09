@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 //User CRUD
 
 //create a new user
-router.post("/", async (req, res) => {
+router.post("/", async (req, res) => {  
   const { email, name, username } = req.body;
   console.log(email, name, username);
   try {
@@ -28,6 +28,8 @@ router.post("/", async (req, res) => {
 
 // get all users
 router.get("/", async (req, res) => {
+  //TODO manage for auth user only.  
+  //TODO number of tweets.      
   try {
     const allUsers = await prisma.user.findMany();
     res.json(allUsers);
@@ -39,12 +41,17 @@ router.get("/", async (req, res) => {
 
 // get a user
 router.get("/:id", async (req, res) => {
+    
+  //TODO number of tweets.    
   const { id } = req.params;
   try {
     const user = await prisma.user.findUnique({
       where: {
         id: Number(id),
       },
+      include: {
+        tweets:true
+      }
     });
     res.json(user);
   } catch (error) {
@@ -55,6 +62,7 @@ router.get("/:id", async (req, res) => {
 
 // update a user
 router.put("/:id", async (req, res) => {
+  //TODO manage for auth user only.  
   const { id } = req.params;
   const { bio, name, image } = req.body;
 
@@ -72,6 +80,7 @@ router.put("/:id", async (req, res) => {
 
 // delete a user
 router.delete("/:id", async (req, res) => {
+   //TODO manage for auth user only.    
   const { id } = req.params;
   try {
     const deletedUser = await prisma.user.delete({
