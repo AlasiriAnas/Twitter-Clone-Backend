@@ -10,6 +10,7 @@ const prisma = new PrismaClient();
 router.post("/", async (req, res) => {
   //TODO manage based on auth user
   const { content, image, userId } = req.body;
+  
   try {
     const newTweet = await prisma.tweet.create({
       data: {
