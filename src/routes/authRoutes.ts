@@ -104,7 +104,7 @@ router.post("/authenticate", async (req, res) => {
       );
     const apiToken = await prisma.token.create({
         data:{
-            type:"API",
+            type:'API',
             expiration,
             user:{
                 connect:{
@@ -117,7 +117,7 @@ router.post("/authenticate", async (req, res) => {
     // invalidate the email token.
     await prisma.token.update({
         where:{
-            id:emailToken,
+            id: dbEmailToken.id ,
         },
         data:{
             valid:false
